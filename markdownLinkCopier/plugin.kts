@@ -1,5 +1,6 @@
 // depends-on-plugin Git4Idea
 // depends-on-plugin com.intellij.java
+// depends-on-plugin org.jetbrains.kotlin
 
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.fileEditor.FileEditorManager
@@ -16,6 +17,8 @@ import com.intellij.vcsUtil.VcsUtil
 import git4idea.GitUtil
 import git4idea.repo.GitRepositoryManager
 import liveplugin.show
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtNamedFunction
 import java.awt.datatransfer.StringSelection
 
 class CopyGithubLinkAction : AnAction("(Markdown) Copy Link to Github Repository") {
@@ -31,6 +34,7 @@ class CopyGithubLinkAction : AnAction("(Markdown) Copy Link to Github Repository
             (editor.document.getLineNumber(editor.selectionModel.selectionStart) + 1),
             (editor.document.getLineNumber(editor.selectionModel.selectionEnd) + 1)
         )
+
         getGitHubUrl(project, file, selectionLines) { githubUrl ->
             if (githubUrl.isNotEmpty()) {
                 val displayString = displayString(className, methodName, selectionLines)
@@ -55,13 +59,35 @@ class CopyGithubLinkAction : AnAction("(Markdown) Copy Link to Github Repository
     private fun getMethodNameAtCaret(project: Project, file: VirtualFile, caretOffset: Int): String {
         val psiFile = PsiManager.getInstance(project).findFile(file) ?: return ""
         val elementAtCaret = psiFile.findElementAt(caretOffset) ?: return ""
-        return PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod::class.java)?.name ?: ""
+
+        // Java
+        PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod::class.java)?.name?.let {
+            return it
+        }
+
+        // Kotlin
+        PsiTreeUtil.getParentOfType(elementAtCaret, KtNamedFunction::class.java)?.name?.let {
+            return it
+        }
+
+        return ""
     }
 
     private fun getClassNameAtCaret(project: Project, file: VirtualFile, caretOffset: Int): String {
         val psiFile = PsiManager.getInstance(project).findFile(file) ?: return file.nameWithoutExtension
         val elementAtCaret = psiFile.findElementAt(caretOffset) ?: return file.nameWithoutExtension
-        return PsiTreeUtil.getParentOfType(elementAtCaret, PsiClass::class.java)?.name ?: file.nameWithoutExtension
+
+        // Java
+        PsiTreeUtil.getParentOfType(elementAtCaret, PsiClass::class.java)?.name?.let {
+            return it
+        }
+
+        // Kotlin
+        PsiTreeUtil.getParentOfType(elementAtCaret, KtClass::class.java)?.name?.let {
+            return it
+        }
+
+        return file.nameWithoutExtension
     }
 
     private fun getGitHubUrl(project: Project, file: VirtualFile, selectionLines: SelectionLines, callback: (String) -> Unit) {
