@@ -93,7 +93,7 @@ class SelectionLines(private val startLine: Int, private val endLine: Int) {
 }
 
 val actionManager = ActionManager.getInstance()
-val groupId = "CopyGithubLinkAction"
+val groupId = "EditorPopupMenu"
 val actionId = "(Markdown) Copy Link to Github Repository"
 
 // removeAction
