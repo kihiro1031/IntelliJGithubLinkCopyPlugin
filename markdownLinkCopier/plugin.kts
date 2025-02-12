@@ -149,7 +149,10 @@ val groupId = "EditorPopupMenu"
 val actionId = "(Markdown) Copy Link to Github Repository"
 
 // removeAction
-actionManager.getAction(actionId)?.let { actionManager.unregisterAction(actionId) }
+actionManager.getAction(actionId)?.let {
+    (actionManager.getAction(groupId) as? DefaultActionGroup)?.remove(it)
+    actionManager.unregisterAction(actionId)
+}
 
 // addAction
 val action = CopyGithubLinkAction()
