@@ -15,6 +15,10 @@ import com.intellij.psi.PsiMethod
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.vcsUtil.VcsUtil
 import git4idea.GitUtil
+import git4idea.commands.Git
+import git4idea.commands.GitCommand
+import git4idea.commands.GitLineHandler
+import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryManager
 import liveplugin.show
 import org.jetbrains.kotlin.psi.KtClass
@@ -102,13 +106,35 @@ class CopyGithubLinkAction : AnAction("(Markdown) Copy Link to Github Repository
                 }
 
                 val remoteUrl = repository.remotes.firstOrNull()?.firstUrl ?: return
-                val branch = repository.currentBranchName ?: "main"
+                val httpsUrl = convertSshUrlToHttps(remoteUrl)
+                val commitHash = getLatestCommitHash(repository) ?: return
                 val relativePath = GitUtil.getRelativePath(repository.root.path, VcsUtil.getFilePath(file)) ?: return
 
-                val githubUrl = remoteUrl.replace(".git", "") + "/blob/$branch/$relativePath${selectionLines.rangeString()}"
+                val githubUrl = "$httpsUrl/blob/$commitHash/$relativePath${selectionLines.rangeString()}"
                 callback(githubUrl)
             }
         })
+    }
+
+    private fun convertSshUrlToHttps(sshUrl: String): String {
+        return if (sshUrl.startsWith("git@github.com:")) {
+            sshUrl.replace("git@github.com:", "https://github.com/").removeSuffix(".git")
+        } else {
+            sshUrl.removeSuffix(".git")
+        }
+    }
+
+    private fun getLatestCommitHash(repository: GitRepository): String? {
+        val git = Git.getInstance()
+        val handler = GitLineHandler(repository.project, repository.root, GitCommand.REV_PARSE)
+        handler.addParameters("HEAD")
+
+        val result = git.runCommand(handler)
+        return if (result.success()) {
+            result.outputAsJoinedString.trim()
+        } else {
+            null
+        }
     }
 }
 
