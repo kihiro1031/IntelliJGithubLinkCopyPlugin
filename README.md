@@ -11,12 +11,17 @@ Currently, this plugin requires installation via [LivePlugin](https://plugins.je
 2. Open the **Live Plugin** menu in IntelliJ IDEA and create a new plugin.
 3. Select **"Kotlin Plugin"**.
 4. Enter any desired plugin name.
-5. Replace the content of `plugin.kts` with the corresponding plugin code from this project.
-6. Run **"Run {Plugin Name} Plugin"**.
+   - <img width="334" alt="1" src="https://github.com/user-attachments/assets/92a29d03-6641-4333-9f0c-052670987579" />
+6. Replace the content of `plugin.kts` with the corresponding plugin code from this project.
+   - <img width="690" alt="2" src="https://github.com/user-attachments/assets/25bb36f2-e36d-4306-b2e1-6280f8a6fe5c" />
+8. Run **"Run {Plugin Name} Plugin"**.
+   - <img width="293" alt="3" src="https://github.com/user-attachments/assets/75be6f10-b8ee-4ca3-a08f-a796b27fdc2d" />
 
 ---
 
 ## **markdownLinkCopier**
+<img width="270" alt="4" src="https://github.com/user-attachments/assets/30c518c9-f735-434e-9c8b-f5943f29a982" />
+
 Installing this plugin adds the **`(Markdown) Copy Link to Github Repository`** feature.  
 It allows you to open a Java or Kotlin file managed in a GitHub repository and execute the feature from the right-click menu.  
 This function copies the selected code's GitHub link in the following Markdown format to the clipboard:
@@ -70,13 +75,18 @@ IntelliJ における `Copy Link to Github Repository` の機能を拡張した�
 1. [LivePlugin のREADME](https://github.com/dkandalov/live-plugin?tab=readme-ov-file#liveplugin) に従い、インストールを行ってください。
 2. IntelliJ IDEA の「Live Plugin」メニューを開き、新しいプラグインを作成。
 3. 「Kotlin Plugin」を選択。
-4. 任意のプラグイン名を入力。
-5. `plugin.kts` の内容を本プロジェクトの対象プラグインのコードに置き換える。
-6. 「Run {プラグイン名} Plugin」を実行。
+5. 任意のプラグイン名を入力。
+   - <img width="334" alt="1" src="https://github.com/user-attachments/assets/92a29d03-6641-4333-9f0c-052670987579" />
+7. `plugin.kts` の内容を本プロジェクトの対象プラグインのコードに置き換える。
+　　- <img width="690" alt="2" src="https://github.com/user-attachments/assets/25bb36f2-e36d-4306-b2e1-6280f8a6fe5c" />
+9. 「Run {プラグイン名} Plugin」を実行。
+   - <img width="293" alt="3" src="https://github.com/user-attachments/assets/75be6f10-b8ee-4ca3-a08f-a796b27fdc2d" />
 
 ---
 
 ## **markdownLinkCopier**
+<img width="270" alt="4" src="https://github.com/user-attachments/assets/30c518c9-f735-434e-9c8b-f5943f29a982" />
+
 プラグインをインストールすることで **`(Markdown) Copy Link to Github Repository`** という機能が追加されます。  
 github リポジトリで管理している java, kotlin を開き、右クリックメニューから本機能を実行可能です。
 この機能は以下の Markdown 形式でクリップボードにコピーします。
